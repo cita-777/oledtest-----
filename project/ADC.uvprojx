@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,GD32F470</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CMSIS;..\Startup;..\Library\GD32F4xx_standard_peripheral\Include;..\User;..\HeaderFiles;..\Implement;..\HardWare\LED;..\HardWare\KEY;..\Protocol\USART0;..\System\ADC;..\HardWare\OLED;..\System\flash;..\System\rtc;..\CMSIS\GD\GD32F4xx\Include;..\Scheduler</IncludePath>
+              <IncludePath>..\CMSIS;..\Startup;..\Library\GD32F4xx_standard_peripheral\Include;..\User;..\HeaderFiles;..\Implement;..\HardWare\LED;..\HardWare\KEY;..\Protocol\USART0;..\System\ADC;..\HardWare\OLED;..\System\flash;..\System\rtc;..\CMSIS\GD\GD32F4xx\Include;..\Scheduler;..\HardWare\SPI_FLASH;..\HardWare\RTC</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -418,6 +418,16 @@
               <FileName>OLED.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HardWare\OLED\OLED.c</FilePath>
+            </File>
+            <File>
+              <FileName>RTC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HardWare\RTC\RTC.c</FilePath>
+            </File>
+            <File>
+              <FileName>SPI_FLASH.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HardWare\SPI_FLASH\SPI_FLASH.c</FilePath>
             </File>
           </Files>
         </Group>

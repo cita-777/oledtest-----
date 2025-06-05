@@ -51,4 +51,6 @@
 .\objects\oled.o: ..\Protocol\USART0\USART0.h
 .\objects\oled.o: ..\Scheduler\scheduler.h
 .\objects\oled.o: C:\Users\Administrator\AppData\Local\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\oled.o: ..\HardWare\KEY\KEY.h
+.\objects\oled.o: ..\HardWare\SPI_FLASH\SPI_FLASH.h
 .\objects\oled.o: ..\HardWare\OLED\oledfont.h

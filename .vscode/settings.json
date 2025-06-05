@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "stdint.h": "c",
-        "headerfiles.h": "c"
+        "headerfiles.h": "c",
+        "gd32f4xx_libopt.h": "c"
     }
 }

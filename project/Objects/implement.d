@@ -51,3 +51,5 @@
 .\objects\implement.o: ..\Protocol\USART0\USART0.h
 .\objects\implement.o: ..\Scheduler\scheduler.h
 .\objects\implement.o: C:\Users\Administrator\AppData\Local\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\implement.o: ..\HardWare\KEY\KEY.h
+.\objects\implement.o: ..\HardWare\SPI_FLASH\SPI_FLASH.h

@@ -5,6 +5,8 @@
 ".\objects\led.o"
 ".\objects\key.o"
 ".\objects\oled.o"
+".\objects\rtc.o"
+".\objects\spi_flash.o"
 ".\objects\usart0.o"
 ".\objects\implement.o"
 ".\objects\adc.o"

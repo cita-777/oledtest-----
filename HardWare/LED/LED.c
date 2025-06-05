@@ -168,7 +168,7 @@ void all_leds_on(void)
 void led1_task(void)
 {
     led_toggle(1);   // ÇÐ»»LED1×´Ì¬
-    printf("LED1\r\n");
+                     // printf("LED1\r\n");
 }
 
 /************************************************************

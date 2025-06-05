@@ -29,6 +29,10 @@ void task_display_update(void);      // 显示更新任务
 void task_led_blink(void);           // LED闪烁任务
 void task_heartbeat(void);           // 系统心跳任务
 void App_Task_UpdateDisplay(void);   // 兼容性函数
+void task_oled_test(void);           // OLED测试任务
+void task_key_scan(void);            // 按键扫描任务
+void task_rtc_test(void);            // RTC测试任务
+void task_spi_flash_test(void);      // SPI Flash测试任务
 
 // 测试函数声明
 void scheduler_test_demo(void);   // 调度器测试演示

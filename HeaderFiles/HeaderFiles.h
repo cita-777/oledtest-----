@@ -22,7 +22,8 @@
 #    include "LED.h"         // LED
 #    include "USART0.h"      // ´®¿Ú
 #    include "scheduler.h"
-
+#include "KEY.h"
+#include "SPI_FLASH.h"
 
 
 void test_flash_read_write(void);
