@@ -1,63 +1,63 @@
 #include "scheduler.h"
 
-// é™æ€ä»»åŠ¡æ•°ç»„å’Œè®¡æ•°å™¨
+// ¾²Ì¬ÈÎÎñÊı×éºÍ¼ÆÊıÆ÷
 static task_t  tasks[MAX_TASKS];
 static uint8_t task_count = 0;
 
 /**
- * @brief åˆå§‹åŒ–è°ƒåº¦å™¨
+ * @brief ³õÊ¼»¯µ÷¶ÈÆ÷
  */
 void scheduler_init(void)
 {
-    task_count = 0;   // æ¸…ç©ºæ‰€æœ‰ä»»åŠ¡
+    task_count = 0;   // Çå¿ÕËùÓĞÈÎÎñ
     for (uint8_t i = 0; i < MAX_TASKS; i++)
     {
         tasks[i].func      = NULL;
         tasks[i].interval  = 0;
         tasks[i].countdown = 0;
         tasks[i].state     = TASK_DISABLED;
-        tasks[i].ready     = 0;   // åˆå§‹åŒ–å°±ç»ªæ ‡å¿—
+        tasks[i].ready     = 0;   // ³õÊ¼»¯¾ÍĞ÷±êÖ¾
     }
 }
 
 /**
- * @brief æ·»åŠ ä»»åŠ¡åˆ°è°ƒåº¦å™¨
- * @param task_func: ä»»åŠ¡å‡½æ•°æŒ‡é’ˆ
- * @param interval_ms: æ‰§è¡Œé—´éš”(æ¯«ç§’)
- * @return ä»»åŠ¡å¥æŸ„ï¼Œå¤±è´¥è¿”å›INVALID_TASK_HANDLE
+ * @brief Ìí¼ÓÈÎÎñµ½µ÷¶ÈÆ÷
+ * @param task_func: ÈÎÎñº¯ÊıÖ¸Õë
+ * @param interval_ms: Ö´ĞĞ¼ä¸ô(ºÁÃë)
+ * @return ÈÎÎñ¾ä±ú£¬Ê§°Ü·µ»ØINVALID_TASK_HANDLE
  */
 task_handle_t scheduler_add_task(void (*task_func)(void), uint32_t interval_ms)
 {
-    // å‚æ•°æ£€æŸ¥
+    // ²ÎÊı¼ì²é
     if (task_func == NULL || interval_ms == 0 || task_count >= MAX_TASKS)
     {
         return INVALID_TASK_HANDLE;
-    }   // æ·»åŠ ä»»åŠ¡
+    }   // Ìí¼ÓÈÎÎñ
     tasks[task_count].func      = task_func;
     tasks[task_count].interval  = interval_ms;
     tasks[task_count].countdown = interval_ms;
-    tasks[task_count].state     = TASK_DISABLED;   // é»˜è®¤ç¦ç”¨ï¼Œéœ€æ‰‹åŠ¨å¯ç”¨
-    tasks[task_count].ready     = 0;               // åˆå§‹åŒ–å°±ç»ªæ ‡å¿—
+    tasks[task_count].state     = TASK_DISABLED;   // Ä¬ÈÏ½ûÓÃ£¬ĞèÊÖ¶¯ÆôÓÃ
+    tasks[task_count].ready     = 0;               // ³õÊ¼»¯¾ÍĞ÷±êÖ¾
 
     return task_count++;
 }
 
 /**
- * @brief å¯ç”¨ä»»åŠ¡
- * @param handle: ä»»åŠ¡å¥æŸ„
+ * @brief ÆôÓÃÈÎÎñ
+ * @param handle: ÈÎÎñ¾ä±ú
  */
 void scheduler_enable_task(task_handle_t handle)
 {
     if (handle < task_count)
     {
         tasks[handle].state     = TASK_ENABLED;
-        tasks[handle].countdown = tasks[handle].interval;   // é‡ç½®å€’è®¡æ—¶
+        tasks[handle].countdown = tasks[handle].interval;   // ÖØÖÃµ¹¼ÆÊ±
     }
 }
 
 /**
- * @brief ç¦ç”¨ä»»åŠ¡
- * @param handle: ä»»åŠ¡å¥æŸ„
+ * @brief ½ûÓÃÈÎÎñ
+ * @param handle: ÈÎÎñ¾ä±ú
  */
 void scheduler_disable_task(task_handle_t handle)
 {
@@ -68,8 +68,8 @@ void scheduler_disable_task(task_handle_t handle)
 }
 
 /**
- * @brief è°ƒåº¦å™¨å¿ƒè·³ - åœ¨1mså®šæ—¶å™¨ä¸­æ–­ä¸­è°ƒç”¨
- * @note ä¸­æ–­ä¸­åªæ›´æ–°æ—¶é’Ÿï¼Œä¸æ‰§è¡Œä»»åŠ¡ï¼ç¡®ä¿ä¸­æ–­å¿«é€Ÿæ‰§è¡Œ
+ * @brief µ÷¶ÈÆ÷ĞÄÌø - ÔÚ1ms¶¨Ê±Æ÷ÖĞ¶ÏÖĞµ÷ÓÃ
+ * @note ÖĞ¶ÏÖĞÖ»¸üĞÂÊ±ÖÓ£¬²»Ö´ĞĞÈÎÎñ£¡È·±£ÖĞ¶Ï¿ìËÙÖ´ĞĞ
  */
 void scheduler_tick(void)
 {
@@ -82,19 +82,19 @@ void scheduler_tick(void)
                 tasks[i].countdown--;
             }
 
-            // æ—¶é—´åˆ°äº†ï¼Œè®¾ç½®å°±ç»ªæ ‡å¿—ï¼Œä½†ä¸åœ¨ä¸­æ–­ä¸­æ‰§è¡Œä»»åŠ¡
+            // Ê±¼äµ½ÁË£¬ÉèÖÃ¾ÍĞ÷±êÖ¾£¬µ«²»ÔÚÖĞ¶ÏÖĞÖ´ĞĞÈÎÎñ
             if (tasks[i].countdown == 0)
             {
-                tasks[i].ready     = 1;                   // æ ‡è®°ä»»åŠ¡å°±ç»ª
-                tasks[i].countdown = tasks[i].interval;   // é‡ç½®å€’è®¡æ—¶
+                tasks[i].ready     = 1;                   // ±ê¼ÇÈÎÎñ¾ÍĞ÷
+                tasks[i].countdown = tasks[i].interval;   // ÖØÖÃµ¹¼ÆÊ±
             }
         }
     }
 }
 
 /**
- * @brief è°ƒåº¦å™¨è¿è¡Œ - åœ¨ä¸»å¾ªç¯ä¸­è°ƒç”¨
- * @note æ£€æŸ¥å¹¶æ‰§è¡Œæ‰€æœ‰å°±ç»ªçš„ä»»åŠ¡ï¼Œå®‰å…¨å¯é 
+ * @brief µ÷¶ÈÆ÷ÔËĞĞ - ÔÚÖ÷Ñ­»·ÖĞµ÷ÓÃ
+ * @note ¼ì²é²¢Ö´ĞĞËùÓĞ¾ÍĞ÷µÄÈÎÎñ£¬°²È«¿É¿¿
  */
 void scheduler_run(void)
 {
@@ -102,15 +102,15 @@ void scheduler_run(void)
     {
         if (tasks[i].ready && tasks[i].func != NULL)
         {
-            tasks[i].ready = 0;   // æ¸…é™¤å°±ç»ªæ ‡å¿—
-            tasks[i].func();      // åœ¨ä¸»å¾ªç¯ä¸­å®‰å…¨æ‰§è¡Œä»»åŠ¡
+            tasks[i].ready = 0;   // Çå³ı¾ÍĞ÷±êÖ¾
+            tasks[i].func();      // ÔÚÖ÷Ñ­»·ÖĞ°²È«Ö´ĞĞÈÎÎñ
         }
     }
 }
 
 /**
- * @brief è·å–å½“å‰ä»»åŠ¡æ•°é‡
- * @return ä»»åŠ¡æ•°é‡
+ * @brief »ñÈ¡µ±Ç°ÈÎÎñÊıÁ¿
+ * @return ÈÎÎñÊıÁ¿
  */
 uint8_t scheduler_get_task_count(void)
 {

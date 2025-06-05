@@ -5,36 +5,36 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define MAX_TASKS 8   // æœ€å¤§ä»»åŠ¡æ•°é‡
+#define MAX_TASKS 8   // ×î´óÈÎÎñÊıÁ¿
 
-// ä»»åŠ¡çŠ¶æ€
+// ÈÎÎñ×´Ì¬
 typedef enum
 {
     TASK_DISABLED = 0,
     TASK_ENABLED  = 1
 } task_state_t;
 
-// ç®€åŒ–çš„ä»»åŠ¡ç»“æ„
+// ¼ò»¯µÄÈÎÎñ½á¹¹
 typedef struct
 {
-    void (*func)(void);       // ä»»åŠ¡å‡½æ•°
-    uint32_t     interval;    // æ‰§è¡Œé—´éš”(ms)
-    uint32_t     countdown;   // å€’è®¡æ—¶(ms)
-    task_state_t state;       // ä»»åŠ¡çŠ¶æ€
-    uint8_t      ready;       // ä»»åŠ¡å°±ç»ªæ ‡å¿—ï¼š1=éœ€è¦æ‰§è¡Œï¼Œ0=ä¸éœ€è¦æ‰§è¡Œ
+    void (*func)(void);       // ÈÎÎñº¯Êı
+    uint32_t     interval;    // Ö´ĞĞ¼ä¸ô(ms)
+    uint32_t     countdown;   // µ¹¼ÆÊ±(ms)
+    task_state_t state;       // ÈÎÎñ×´Ì¬
+    uint8_t      ready;       // ÈÎÎñ¾ÍĞ÷±êÖ¾£º1=ĞèÒªÖ´ĞĞ£¬0=²»ĞèÒªÖ´ĞĞ
 } task_t;
 
-// ä»»åŠ¡å¥æŸ„ç±»å‹
+// ÈÎÎñ¾ä±úÀàĞÍ
 typedef uint8_t task_handle_t;
 #define INVALID_TASK_HANDLE 0xFF
 
-// è°ƒåº¦å™¨æ¥å£ - ç®€æ´æ˜äº†
+// µ÷¶ÈÆ÷½Ó¿Ú - ¼ò½àÃ÷ÁË
 void          scheduler_init(void);
 task_handle_t scheduler_add_task(void (*task_func)(void), uint32_t interval_ms);
 void          scheduler_enable_task(task_handle_t handle);
 void          scheduler_disable_task(task_handle_t handle);
-void          scheduler_tick(void);   // 1msä¸­æ–­è°ƒç”¨ - ä»…æ›´æ–°æ—¶é’Ÿ
-void          scheduler_run(void);    // ä¸»å¾ªç¯è°ƒç”¨ - æ‰§è¡Œå°±ç»ªä»»åŠ¡
+void          scheduler_tick(void);   // 1msÖĞ¶Ïµ÷ÓÃ - ½ö¸üĞÂÊ±ÖÓ
+void          scheduler_run(void);    // Ö÷Ñ­»·µ÷ÓÃ - Ö´ĞĞ¾ÍĞ÷ÈÎÎñ
 uint8_t       scheduler_get_task_count(void);
 
 #endif   // __SCHEDULER_H
