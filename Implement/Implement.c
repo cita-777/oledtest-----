@@ -48,8 +48,17 @@ void System_Init(void)
     OLED_Init();        // OLED显示屏初始化
     KEY_Init();         // 按键初始化
     spi_flash_init();   // SPI Flash初始化
+    OLED_DisPlay_On();
 
     delay_1ms(10);   // 初始化延时
+
+    // 添加基础OLED测试 - 仿照你的正常代码
+    printf("开始OLED基础测试...\r\n");
+    OLED_Clear();
+    OLED_ShowString(0, 0, (uint8_t*)"**Hello CIMC**.", 16);
+    OLED_ShowString(0, 16, (uint8_t*)"OLED Init OK!", 16);
+    OLED_Refresh();   // 关键！必须调用刷新
+    printf("OLED基础测试完成\r\n");
 }
 
 /************************************************************
@@ -106,19 +115,31 @@ void task_oled_test(void)
     case 0:
         OLED_Clear();
         OLED_ShowString(0, 0, (uint8_t*)"OLED Test", 16);
-        OLED_ShowString(0, 2, (uint8_t*)"Hello, World!", 16);
+        OLED_ShowString(0, 16, (uint8_t*)"Hello, World!", 16);   // 修改Y坐标避免重叠
+        OLED_Refresh();                                          // 添加刷新
         break;
-    case 1: OLED_DrawLine(0, 20, 127, 20); break;
-    case 2: OLED_DrawCircle(64, 40, 10); break;
+    case 1:
+        OLED_Clear();
+        OLED_DrawLine(0, 20, 127, 20);
+        OLED_Refresh();   // 添加刷新
+        break;
+    case 2:
+        OLED_Clear();
+        OLED_DrawCircle(64, 40, 10);
+        OLED_Refresh();   // 添加刷新
+        break;
     case 3:
+        OLED_Clear();
         OLED_ShowChinese(0, 50, 0, 16);    // 显
         OLED_ShowChinese(18, 50, 1, 16);   // 示
         OLED_ShowChinese(36, 50, 2, 16);   // 测
         OLED_ShowChinese(54, 50, 3, 16);   // 试
+        OLED_Refresh();                    // 添加刷新
         break;
     default:
         oled_test_step = 0;   // Reset test
         OLED_Clear();
+        OLED_Refresh();   // 清屏后也要刷新
         return;
     }
     oled_test_step++;
@@ -127,7 +148,7 @@ void task_oled_test(void)
 
 /************************************************************
  * 函数:       task_key_scan(void)
- * 说明:       按键扫描任务 - 添加防抖处理
+ * 说明:       按键扫描任务 - 简化版本，使用KEY.c的防抖功能
  * 输入:       无
  * 输出:       无
  * 返回值:     无
@@ -136,51 +157,42 @@ void task_oled_test(void)
  ************************************************************/
 void task_key_scan(void)
 {
-    static uint8_t key1_last_state  = 1;   // 上次按键状态，1表示未按下
-    static uint8_t key2_last_state  = 1;
-    static uint8_t key1_press_count = 0;   // 按键按下计数器，用于防抖
-    static uint8_t key2_press_count = 0;
+    // 执行按键扫描
+    KEY_Scan();
 
-    uint8_t key1_current = KEY_Stat(KEY_PORT, KEY1_PIN);
-    uint8_t key2_current = KEY_Stat(KEY_PORT, KEY2_PIN);
-
-    // KEY1 防抖处理
-    if (key1_current == 0)   // 按键被按下
+    // 检查按键按下事件
+    if (KEY_GetPressed(1))   // KEY1被按下
     {
-        key1_press_count++;
-        if (key1_press_count >= 3 && key1_last_state == 1)   // 连续3次检测到按下，且上次是释放状态
-        {
-            printf("KEY1 Pressed\r\n");
-            OLED_Clear();
-            OLED_ShowString(0, 0, (uint8_t*)"KEY1 Pressed", 16);
-            key1_last_state = 0;   // 更新状态为按下
-        }
-    }
-    else   // 按键释放
-    {
-        key1_press_count = 0;
-        key1_last_state  = 1;   // 更新状态为释放
+        printf("KEY1 Pressed\r\n");
+        OLED_Clear();
+        OLED_ShowString(0, 0, (uint8_t*)"KEY1 Pressed", 16);
+        OLED_Refresh();   // 添加刷新
     }
 
-    // KEY2 防抖处理
-    if (key2_current == 0)   // 按键被按下
+    if (KEY_GetPressed(2))   // KEY2被按下
     {
-        key2_press_count++;
-        if (key2_press_count >= 3 && key2_last_state == 1)   // 连续3次检测到按下，且上次是释放状态
-        {
-            printf("KEY2 Pressed\r\n");
-            OLED_Clear();
-            OLED_ShowString(0, 0, (uint8_t*)"KEY2 Pressed", 16);
-            key2_last_state = 0;   // 更新状态为按下
-        }
+        printf("KEY2 Pressed\r\n");
+        OLED_Clear();
+        OLED_ShowString(0, 0, (uint8_t*)"KEY2 Pressed", 16);
+        OLED_Refresh();   // 添加刷新
     }
-    else   // 按键释放
+
+    if (KEY_GetPressed(3))   // KEY3被按下
     {
-        key2_press_count = 0;
-        key2_last_state  = 1;   // 更新状态为释放
+        printf("KEY3 Pressed\r\n");
+        OLED_Clear();
+        OLED_ShowString(0, 0, (uint8_t*)"KEY3 Pressed", 16);
+        OLED_Refresh();   // 添加刷新
+    }
+
+    if (KEY_GetPressed(4))   // KEY4被按下
+    {
+        printf("KEY4 Pressed\r\n");
+        OLED_Clear();
+        OLED_ShowString(0, 0, (uint8_t*)"KEY4 Pressed", 16);
+        OLED_Refresh();   // 添加刷新
     }
 }
-
 /************************************************************
  * 函数:       task_rtc_test(void)
  * 说明:       RTC测试任务
@@ -201,6 +213,7 @@ void task_rtc_test(void)
         printf("RTC初始化完成\r\n");
         OLED_Clear();
         OLED_ShowString(0, 0, (uint8_t*)"RTC显示时间", 16);
+        OLED_Refresh();   // 添加刷新
         rtc_initialized = 1;
     }
 
@@ -217,6 +230,8 @@ void task_rtc_test(void)
 
     sprintf(time_str, "%02x:%02x:%02x", rtc_time.hour, rtc_time.minute, rtc_time.second);
     OLED_ShowString(0, 4, (uint8_t*)time_str, 16);
+
+    OLED_Refresh();   // 添加刷新
 }
 
 /************************************************************
@@ -247,17 +262,20 @@ void task_spi_flash_test(void)
     printf("=== SPI Flash Test (One Time Only) ===\r\n");
     OLED_Clear();
     OLED_ShowString(0, 0, (uint8_t*)"SPI Flash Test", 16);
+    OLED_Refresh();   // 添加刷新
 
     flash_id = spi_flash_read_id();
     printf("Flash ID: 0x%X\r\n", flash_id);
     char id_str[20];
     sprintf(id_str, "Flash ID:0x%X", flash_id);
     OLED_ShowString(0, 2, (uint8_t*)id_str, 16);
+    OLED_Refresh();   // 添加刷新
 
     if (flash_id == SFLASH_ID)   // SFLASH_ID 在 Implement.h 中定义
     {
         printf("SPI Flash ID OK.\r\n");
         OLED_ShowString(0, 4, (uint8_t*)"ID OK", 16);
+        OLED_Refresh();   // 添加刷新
 
         // 准备写入数据
         for (i = 0; i < SPI_FLASH_PAGE_SIZE; i++)
@@ -267,18 +285,21 @@ void task_spi_flash_test(void)
 
         printf("Erasing sector...\r\n");
         OLED_ShowString(0, 6, (uint8_t*)"Erasing...", 16);
+        OLED_Refresh();                                // 添加刷新
         spi_flash_sector_erase(FLASH_WRITE_ADDRESS);   // FLASH_WRITE_ADDRESS 在 Implement.h 中定义
         spi_flash_wait_for_write_end();
         printf("Erase complete.\r\n");
 
         printf("Writing data to 0x%08X...\r\n", FLASH_WRITE_ADDRESS);
         OLED_ShowString(0, 6, (uint8_t*)"Writing...", 16);
+        OLED_Refresh();   // 添加刷新
         spi_flash_buffer_write(write_buffer, FLASH_WRITE_ADDRESS, SPI_FLASH_PAGE_SIZE);
         spi_flash_wait_for_write_end();
         printf("Write complete.\r\n");
 
         printf("Reading data from 0x%08X...\r\n", FLASH_READ_ADDRESS);   // FLASH_READ_ADDRESS 在 Implement.h 中定义
         OLED_ShowString(0, 6, (uint8_t*)"Reading...", 16);
+        OLED_Refresh();   // 添加刷新
         spi_flash_buffer_read(read_buffer, FLASH_READ_ADDRESS, SPI_FLASH_PAGE_SIZE);
         printf("Read complete.\r\n");
 
@@ -293,11 +314,13 @@ void task_spi_flash_test(void)
             printf("SPI Flash Test Failed! Data mismatch.\r\n");
             OLED_ShowString(0, 6, (uint8_t*)"Test Failed!", 16);
         }
+        OLED_Refresh();   // 添加刷新
     }
     else
     {
         printf("SPI Flash ID Error. Expected 0x%X, Got 0x%X\r\n", SFLASH_ID, flash_id);
         OLED_ShowString(0, 4, (uint8_t*)"ID Error", 16);
+        OLED_Refresh();   // 添加刷新
     }
 
     printf("SPI Flash test completed. Disabling task...\r\n");

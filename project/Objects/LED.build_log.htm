@@ -28,13 +28,14 @@ Project File Date:  06/05/2025
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Users\Administrator\AppData\Local\Keil_v5\ARM\ARMCC\Bin'
 Build target 'ADC'
 Note: source file '..\Scheduler\scheduler.c' - object file renamed from '.\Objects\scheduler.o' to '.\Objects\scheduler_1.o'.
-compiling LED.c...
 compiling Implement.c...
-..\Implement\Implement.c(200): warning:  #223-D: function "RTC_Init" declared implicitly
+..\HardWare\KEY\KEY.h(37): warning:  #1-D: last line of file ends without a newline
+  /****************************End*****************************/
+..\Implement\Implement.c(212): warning:  #223-D: function "RTC_Init" declared implicitly
           RTC_Init();   // 初始化RTC，但不会要求用户输入时间
-..\Implement\Implement.c(208): warning:  #223-D: function "rtc_show_time" declared implicitly
+..\Implement\Implement.c(221): warning:  #223-D: function "rtc_show_time" declared implicitly
       rtc_show_time();
-..\Implement\Implement.c(445): warning:  #1-D: last line of file ends without a newline
+..\Implement\Implement.c(468): warning:  #1-D: last line of file ends without a newline
   /****************************End*****************************/
 ..\Implement\Implement.c(21): warning:  #177-D: variable "g_led2_handle"  was declared but never referenced
   static task_handle_t g_led2_handle           = INVALID_TASK_HANDLE;
@@ -42,10 +43,10 @@ compiling Implement.c...
   static task_handle_t g_led3_handle           = INVALID_TASK_HANDLE;
 ..\Implement\Implement.c(23): warning:  #177-D: variable "g_led4_handle"  was declared but never referenced
   static task_handle_t g_led4_handle           = INVALID_TASK_HANDLE;
-..\Implement\Implement.c: 6 warnings, 0 errors
+..\Implement\Implement.c: 7 warnings, 0 errors
 linking...
-Program Size: Code=12310 RO-data=8766 RW-data=5628 ZI-data=1796  
-".\Objects\LED.axf" - 0 Error(s), 6 Warning(s).
+Program Size: Code=12794 RO-data=8766 RW-data=5636 ZI-data=1796  
+".\Objects\LED.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -68,7 +69,7 @@ Package Vendor: GigaDevice
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@6.1.0
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
